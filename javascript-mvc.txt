@@ -1,0 +1,20 @@
+Learning MVC through the JavaScripts
+
+* What is MVC?
+* Debugging a javascript application
+* Making things modular
+* Maintaining namespacing within your applicaitons
+* Managing scope
+
+M - Model:
+	- Data and the business logic
+	- Data and it's behavior
+	- Responds to requests for information
+
+V - View:
+	- Presentation of the data
+	- How the data is displayed
+
+C - Controller:
+	- The facilitator between the Model and View
+	- Manages the interactions with the application
