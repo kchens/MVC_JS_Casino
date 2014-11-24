@@ -37,31 +37,14 @@ Die.prototype = {
 }
 
 
-// create a constructor pattern for model Game. Takes an DieFactory instance of model Die as a parameter.
-	 //set the DieFactory to the parameter DieFactory
-	 // set a variable dice to an array that holds all the die
-
-function Game(DieFactory) {
+function Game(DieFactory) { // DieFactory is actually the definition
 	this.DieFactory = DieFactory;
 	this.dice = [];
 }
 
- // use the prototype pattern to hold other functions for Game
-	//create an addDie function
-		 // it pushes a new instance of dieFactory to the dice.
-
-	 //create a roll dice function
-		// Alternatively use array methods for-in loop, .forEach, or Underscore
-		 //iterate through the collection of dice
-			// set a temporary die variable to the iterated die
-			 // roll the die
-
-		// create a clear dice function
-		// set a dice collection to an empty array
-
 Game.prototype = {
-	addDie: function(dieFactory) {
-		this.dice.push(dieFactory);
+	addDie: function() { // no need for dieFactory parameter..
+		this.dice.push(new this.DieFactory()); // ..simply invoke the dieFactory whenever addDie is invoked
 	},
 	rollDice: function() {
 		for (var index = 0; index < this.dice.length; index++ ) {
@@ -89,7 +72,7 @@ Game.prototype = {
 			 // set the die to a dice at the index
 			 //keep adding a new dieTemplate to the dice template. The dieTemplate takes a value from the die.
 
-		 // return the diceTempalte
+		 // return the diceTemplate
 
 	 // create a render function. it takes a variable dice.
 		 //call the jQuery empty() function on the diceContainer to empty the diceContainer
@@ -138,8 +121,10 @@ Game.prototype = {
 
 
 // Model Declarations
- // set a variable casino die to an uninvoked Die
+
+Casino.Die = Die; //must set die to definition. So no "new" or '()'
  // set the casino game to a new Game with the Casino's Die
+Casino.Game = new Game(Casino.Die);
 
 // View Declarations
  // set the Casino's Display to an invoked Display
