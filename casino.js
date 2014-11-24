@@ -1,15 +1,22 @@
 // Namespacing to Casino object
+var Casino = Casino || {};
 
 // Shortcut for: $(document).ready(function() {})
+$(function() {
+
+});
 
 // 'Kicks off the game'. Calls Casino' Dealer's start function
 
 
 // Models
  //create a constructor pattern of model Die
-	  // Capital text for 'magic'/'static' numbers. Set SIDE_COUNT constant to arbitrary number of sides.
-	 // Underscore for 'protected'/'local' methods. Set a value variable to the generateRandomValue() invoked method.
-
+ // Capital text for 'magic'/'static' numbers. Set SIDE_COUNT constant to arbitrary number of sides.
+ // Underscore for 'protected'/'local' methods. Set a value variable to the generateRandomValue() invoked method.
+function Die() {
+	this.SIDE_COUNT = 6;
+	this.value = this._generateRandomValue();
+}
 
 //create a prototype pattern for Die
 	//create a roll function
@@ -19,9 +26,25 @@
 	// define _generateRandomValue method. Underscore for "local methods"
 		// function should return the floor of a random number multiplied by the SIDE_COUNT
 
+Die.prototype = {
+	roll: function() {
+		this.value = this._generateRandomValue();
+		console.log(this.value);
+	},
+	_generateRandomValue: function() {
+		return Math.floor( Math.random() * this.SIDE_COUNT + 1 )
+	}
+}
+
+
 // create a constructor pattern for model Game. Takes an DieFactory instance of model Die as a parameter.
 	 //set the DieFactory to the parameter DieFactory
 	 // set a variable dice to an array that holds all the die
+
+function Game(DieFactory) {
+	this.DieFactory = DieFactory;
+	this.dice = [];
+}
 
  // use the prototype pattern to hold other functions for Game
 	//create an addDie function
@@ -35,6 +58,21 @@
 
 		// create a clear dice function
 		// set a dice collection to an empty array
+
+Game.prototype = {
+	addDie: function(dieFactory) {
+		this.dice.push(dieFactory);
+	},
+	rollDice: function() {
+		for (var index = 0; index < this.dice.length; index++ ) {
+			var die = this.dice[index];
+			die.roll();
+		}
+	},
+	clearDice: function() {
+		this.dice = [];
+	}
+}
 
 // Views
 // create a constructor function Display
