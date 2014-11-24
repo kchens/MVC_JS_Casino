@@ -3,7 +3,7 @@ var Casino = Casino || {};
 
 // Shortcut for: $(document).ready(function() {})
 $(function() {
-
+	Casino.Dealer.start();
 });
 
 // 'Kicks off the game'. Calls Casino' Dealer's start function
@@ -18,7 +18,7 @@ function Die() {
 Die.prototype = {
 	roll: function() {
 		this.value = this._generateRandomValue();
-		console.log(this.value);
+		console.log(this.value); // unnecessary, but good for debugging
 	},
 	_generateRandomValue: function() {
 		return Math.floor( Math.random() * this.SIDE_COUNT + 1 )
@@ -82,46 +82,37 @@ function Dealer(game, display) {
 }
 
 Dealer.prototype = {
-	start: function() {}
-	addDie: function() {}
-	rollDice: function() {}
-	clearDice: function() {}
-	updateView: function() {}
-	bindEventListeners: function() {}
+	start: function() {
+		this.bindEventListeners(); // Javascript function calls require similarly named functions
+	},
+	addDie: function() {
+		this.game.addDie();
+		this.updateView();
+	},
+	rollDice: function() {
+		this.game.rollDice();
+		this.updateView();
+	},
+	clearDice: function() {
+		this.game.clearDice();
+		this.updateView();
+	},
+	updateView: function() {
+		this.display.render(this.game.dice);
+	},
+	bindEventListeners: function() {
+		var that = this;
+		$('.add').on('click', function() {
+			that.addDie();
+		})
+		$('.roll').on('click', function() {
+			that.rollDice();
+		})
+		$('.clear').on('click', function() {
+			that.clearDice();
+		})
+	}
 }
- // create a prototype pattern to hold the dealer's functions:  start, addDie, rollDice, clearDice, updateView, bindEventListeners
-	 // the start function
-		 // // call the bindEventlisteners function
-
-	// the addDie function
-		// call the 'game's addDie function on this dealer
-		 // updateView on this dealer
-
-	 // the rollDice function
-		 // call the 'game's rollDice function
-		 // call the updateView function
-
-	// the clearDice function
-		 // calls the 'game' model method clearDice on this Dealer
-		 // calls this Dealer's updateView method
-
-	// the updateView function
-		// calls the Display's render function. Renders this Dealer's Game's dice.
-
-
-		// Two options for managing scope
-		// 1. self, _this, that (as implemented)
-		// 2. Bind
-
-		// set the Dealer this to a self variable
-		 // when '.add' class is clicked
-			// run teh Dealer's addDie function
-
-
-		 // same with '.roll'
-
-
-		// same with '.clear'
 
 
 // Model Declarations
@@ -129,13 +120,8 @@ Dealer.prototype = {
 Casino.Die = Die; //must set die to definition. So no "new" or '()'
  // set the casino game to a new Game with the Casino's Die
 Casino.Game = new Game(Casino.Die);
-
 // View Declarations
- // set the Casino's Display to an invoked Display
- Casino.Display = new Display()
+Casino.Display = new Display();
 
 // Controller Declarations
- // set the Casino's dealer to a new Dealer with the Casino Game and Casino Display
-
-// P.S. Use your browser's dev tools for all your problems!!
-// i.e. Chrome console!! :)
+Casino.Dealer = new Dealer(Casino.Game, Casino.Display);
