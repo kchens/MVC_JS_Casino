@@ -76,11 +76,19 @@ Display.prototype = {
 
 
 // Controllers
- // create a Dealer constructor. it takes variables 'game' and 'display'.
-	 // set the dealer's game variable to the 'game'
-	 // set the dealer's display varaible to 'display'
+function Dealer(game, display) {
+	this.game = game;
+	this.display = display;
+}
 
-
+Dealer.prototype = {
+	start: function() {}
+	addDie: function() {}
+	rollDice: function() {}
+	clearDice: function() {}
+	updateView: function() {}
+	bindEventListeners: function() {}
+}
  // create a prototype pattern to hold the dealer's functions:  start, addDie, rollDice, clearDice, updateView, bindEventListeners
 	 // the start function
 		 // // call the bindEventlisteners function
