@@ -10,21 +10,10 @@ $(function() {
 
 
 // Models
- //create a constructor pattern of model Die
- // Capital text for 'magic'/'static' numbers. Set SIDE_COUNT constant to arbitrary number of sides.
- // Underscore for 'protected'/'local' methods. Set a value variable to the generateRandomValue() invoked method.
 function Die() {
 	this.SIDE_COUNT = 6;
 	this.value = this._generateRandomValue();
 }
-
-//create a prototype pattern for Die
-	//create a roll function
-		//set this value to  generateRandomValue() invoked method.
-
-	// Helper Methods
-	// define _generateRandomValue method. Underscore for "local methods"
-		// function should return the floor of a random number multiplied by the SIDE_COUNT
 
 Die.prototype = {
 	roll: function() {
@@ -58,25 +47,32 @@ Game.prototype = {
 }
 
 // Views
-// create a constructor function Display
-	//create a constant DIE_CLASS_NAME that refers to the 'die' html class
-	//create a constant DICE_CONTAINER_NAME that refers to the 'dice' class
-	// set a diceContainer to DICE_CONTAINER_NAME
 
- // create a prototype pattern to hold Display functions
-	// create a dieTemplate function. Takes a value parameter
-		//it will return an html div with the proper DIE_CLASS_NAME. It places the parameter value inside the divs.
-	// create a compileDiceTemplate. it take dice as a variable.
-		// set the diceTemplate to an empty string
-		// iterate through the dice
-			 // set the die to a dice at the index
-			 //keep adding a new dieTemplate to the dice template. The dieTemplate takes a value from the die.
+function Display() {
+	// list down all the classes you'll work with that are already
+	// in the HTML. Then list the HTML classes that you will attach
+	this.DIE_CLASS_NAME = 'die';
+	this.DICE_CONTAINER_NAME = '.dice';
+	this.diceContainer = $(this.DICE_CONTAINER_NAME);
+}
 
-		 // return the diceTemplate
-
-	 // create a render function. it takes a variable dice.
-		 //call the jQuery empty() function on the diceContainer to empty the diceContainer
-		 // append the compileDiceTemplate to diceContainer
+Display.prototype = {
+	dieTemplate: function(value) {
+		return "<div class=\'" + this.DIE_CLASS_NAME + "\'>" + value + "</div>";
+	},
+	compileDiceTemplate: function(dice) {
+		var diceTemplate = "";
+		for (var index = 0; index < dice.length; index++) {
+			var die = dice[index];
+			diceTemplate += this.dieTemplate(die.value);
+		}
+		return diceTemplate;
+	},
+	render: function(dice) {
+		this.diceContainer.empty();
+		this.diceContainer.append(this.compileDiceTemplate(dice));
+	}
+}
 
 
 // Controllers
@@ -128,6 +124,7 @@ Casino.Game = new Game(Casino.Die);
 
 // View Declarations
  // set the Casino's Display to an invoked Display
+ Casino.Display = new Display()
 
 // Controller Declarations
  // set the Casino's dealer to a new Dealer with the Casino Game and Casino Display
